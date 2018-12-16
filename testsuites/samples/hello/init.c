@@ -12,6 +12,7 @@
 #endif
 
 #include <rtems/test.h>
+#include <bsp/io.h>
 
 #include <bsp.h> /* for device driver prototypes */
 
@@ -28,7 +29,22 @@ rtems_task Init(
 )
 {
   rtems_test_begin();
+
   printf( "Hello World\n" );
+
+  stm32f4_gpio_config config;
+  config.fields.pin_first = STM32F4_GPIO_PIN(3, 12);
+  config.fields.pin_last = STM32F4_GPIO_PIN(3, 12);
+  config.fields.mode = STM32F4_GPIO_MODE_OUTPUT;
+  config.fields.otype = STM32F4_GPIO_OTYPE_PUSH_PULL;
+  config.fields.ospeed = STM32F4_GPIO_OSPEED_2_MHZ;
+  config.fields.pupd = STM32F4_GPIO_NO_PULL;
+  config.fields.output = 1;
+  config.fields.af = 0;
+  stm32f4_gpio_set_config(&config);
+
+  stm32f4_gpio_set_output(STM32F4_GPIO_PIN(3,12), 1);
+  
   rtems_test_end();
   exit( 0 );
 }
