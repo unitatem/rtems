@@ -61,6 +61,7 @@ AC_CHECK_SIZEOF([time_t])
 # Explicitly list all Makefiles here
 AC_CONFIG_FILES([Makefile
 base_sp/Makefile
+blink/Makefile
 hello/Makefile
 loopback/Makefile
 minimum/Makefile
