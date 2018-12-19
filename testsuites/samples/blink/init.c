@@ -11,8 +11,7 @@
 #include "config.h"
 #endif
 
-// #include <rtems.h>
-#include <rtems/test.h>
+#include <rtems.h>
 #include <bsp/io.h>
 
 #include <bsp.h> /* for device driver prototypes */
@@ -30,8 +29,6 @@ const char rtems_test_name[] = "BLINK";
 
 
 rtems_task Init(rtems_task_argument ignored) {
-  rtems_test_begin();
-
   printf("Spawning task\n" );
 
   rtems_name name = rtems_build_name( 'B', 'L', 'N', 'K' );
@@ -48,8 +45,6 @@ rtems_task Init(rtems_task_argument ignored) {
       printf( "rtems_task_start failed with status of %d\n", status);
       exit(1);
   }
-
-  rtems_test_end();
 
   // delete init task after starting tasks
   status = rtems_task_delete(RTEMS_SELF);
@@ -87,11 +82,9 @@ rtems_task blink_task(rtems_task_argument argument)
 #define CONFIGURE_APPLICATION_NEEDS_CONSOLE_DRIVER
 
 #define CONFIGURE_MAXIMUM_TASKS            2
-#define CONFIGURE_USE_DEVFS_AS_BASE_FILESYSTEM
+#define CONFIGURE_INIT_TASK_NAME rtems_build_name( 'I', 'N', 'I', 'T' )
 
 #define CONFIGURE_RTEMS_INIT_TASKS_TABLE
-
-#define CONFIGURE_INITIAL_EXTENSIONS RTEMS_TEST_INITIAL_EXTENSION
 
 #define CONFIGURE_INIT
 #include <rtems/confdefs.h>
